@@ -40,16 +40,15 @@ if __name__ == "__main__":
     print('Test:', len(X_test))
     print('========')
 
-    # Preprocess (solo si analyzer == 'word')
+    # Preprocess
     if args.analyzer == 'word':
         X_train, y_train = preprocess(X_train, y_train)
         X_test,  y_test  = preprocess(X_test,  y_test)
 
-    # ✅ GUARDA EL TEXTO (antes de vectorizar) para luego imprimir errores
     X_test_text = list(X_test)
     y_test_list = list(y_test)
 
-    # Compute text features (vectorización)
+    # Compute text features
     features, X_train_raw, X_test_raw = compute_features(
         X_train, X_test,
         analyzer=args.analyzer,
@@ -59,13 +58,12 @@ if __name__ == "__main__":
     print('========')
     print('Number of tokens in the vocabulary:', len(features))
 
-    # ✅ Ya no uses X_test.values (puede ser list). Pasa el propio X_test.
     print('Coverage: ', compute_coverage(features, X_test, analyzer=args.analyzer))
     print('========')
 
     # Apply classifier
     X_train_vec, X_test_vec = normalizeData(X_train_raw, X_test_raw)
-    # y_predict = applyNaiveBayes(X_train_vec, y_train, X_test_vec) # Naive Bayes classifier
+    #y_predict = applyNaiveBayes(X_train_vec, y_train, X_test_vec) # Naive Bayes classifier
     y_predict = applySVM(X_train_vec, y_train, X_test_vec) # SVM classifier
 
 
@@ -82,7 +80,7 @@ if __name__ == "__main__":
     plotPCA(X_train_vec, X_test_vec, y_test, languages)
     print('========')
 
-    # ---- Errores: usar X_test_text (texto), NO la sparse matrix ----
+    # Error report
     errors = []
     for txt, y_true, y_hat in zip(X_test_text, y_test_list, y_predict):
         if y_true != y_hat:
@@ -95,9 +93,9 @@ if __name__ == "__main__":
     for (yt, yh), c in pairs.most_common(20):
         print(f"{yt} -> {yh}: {c}")
 
-    # Ejemplos de una confusión concreta
-    target_true = "Russian"
-    target_pred = "Swedish"
+    # Examples of a specific confusion
+    target_true = "Latin"
+    target_pred = "English"
     examples = [txt for yt, yh, txt in errors if yt == target_true and yh == target_pred][:10]
     print(f"\nEjemplos {target_true}->{target_pred}:")
     for e in examples:
