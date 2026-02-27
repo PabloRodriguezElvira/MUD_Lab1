@@ -65,7 +65,9 @@ if __name__ == "__main__":
 
     # Apply classifier
     X_train_vec, X_test_vec = normalizeData(X_train_raw, X_test_raw)
-    y_predict = applyNaiveBayes(X_train_vec, y_train, X_test_vec)
+    # y_predict = applyNaiveBayes(X_train_vec, y_train, X_test_vec) # Naive Bayes classifier
+    y_predict = applySVM(X_train_vec, y_train, X_test_vec) # SVM classifier
+
 
     print('========')
     print('Prediction Results:')

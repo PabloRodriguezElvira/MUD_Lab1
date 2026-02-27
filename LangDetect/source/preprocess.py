@@ -1,6 +1,6 @@
 import re
 
-# Match any CJK-family character:
+# Match any Chinese and Japanese characters
 # Chinese ideographs and Japanese Hiragana/Katakana.
 _CJK_RE = re.compile(r"[\u4E00-\u9FFF\u3400-\u4DBF\u3040-\u309F\u30A0-\u30FF]")
 
